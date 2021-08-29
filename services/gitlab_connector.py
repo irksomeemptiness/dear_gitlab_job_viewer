@@ -18,6 +18,9 @@ def gitlab_connect_api(sender, data, user_data):
     project = gl_connect.projects.get(project_id)
     configure_item(item=3, show=False)
     jobs = project.jobs.list()
+
+    # TODO: to move it somewhere
+    # TODO: to group elements together
     for job in jobs:
         add_text(parent=1, default_value=f"{job.id} - {job.status}")
         add_button(parent=1, label="Open Log", callback=gitlab_log_window, user_data=lambda a=job: a)
