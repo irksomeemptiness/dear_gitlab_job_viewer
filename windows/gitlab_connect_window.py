@@ -11,7 +11,7 @@ def gitlab_token_window(gitlab_private_token, gitlab_url, id):
         gitlab_token = dpg.add_input_text(label="Gitlab Token", password=True, default_value=gitlab_private_token)
         dpg.add_checkbox(label="Save creds", default_value=False)
         dpg.add_button(label="Enter", callback=gitlab_connect_api,
-                        user_data={'gitlab_url': lambda a=gitlab_link: get_value(a),
-                                   'repo_id': lambda a=rep_link: get_value(a),
-                                   'token': lambda a=gitlab_token: get_value(a)}
+                       user_data={'gitlab_url': lambda a=gitlab_link: get_value(a),
+                                  'repo_id': lambda a=rep_link: get_value(a),
+                                  'token': lambda a=gitlab_token: get_value(a)}
                        )

@@ -13,12 +13,13 @@ class Gitlab_job_object:
 
     def parse_log_file(self):
         raw_log = self.extract_raw_log()
+        if not raw_log:
+            return 'There are nothing.'
         return raw_log.decode('utf-8')
         #return raw_log.decode('cp1251')
 
     def filter(self, substring: str):
         result_string: str = ''
-
         full_text = self.parse_log_file().splitlines()
         for string in full_text:
             if substring in string:
@@ -28,13 +29,13 @@ class Gitlab_job_object:
 
     def wide_filter(self, substring: str, up: int, down: int):
         result_string: str = ''
-        #i: int = 0
         full_text = self.parse_log_file().splitlines()
+        if not full_text:
+            return 'No logs'
         if environ.get("DEBUG"):
             print(len(full_text))
         for match_index, string in enumerate(full_text):
             if substring in string:
-                #match_index: int = string.index(substring)
                 print(match_index)
                 above_match: int = match_index - int(up)
                 below_match: int = match_index + int(down)
@@ -54,8 +55,9 @@ class Gitlab_job_object:
 
                 #print(result_string)
 
-
-
-        return result_string
+        if result_string:
+            return result_string
+        else:
+            return 'No matches'
         #full_text.find(substring)
         #return full_text.find(substring)
