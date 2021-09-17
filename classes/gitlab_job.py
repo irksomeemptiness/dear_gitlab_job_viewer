@@ -1,8 +1,17 @@
 from os import environ
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
+class Gitlab_job:
+    job: object
+
+    def __str__(self):
+        return f'{self.job.id} {self.job.status} {self.job.name} {self.job.duration}'
 
 
 class Gitlab_job_object:
-    def __init__(self, job: object):
+    def __init__(self, job: Gitlab_job):
         self.job = job
 
     def extract_raw_log(self):
@@ -23,7 +32,6 @@ class Gitlab_job_object:
         full_text = self.parse_log_file().splitlines()
         for string in full_text:
             if substring in string:
-                # print(f'current string - {string}')
                 result_string += '\n' + string
         return result_string
 
@@ -52,12 +60,7 @@ class Gitlab_job_object:
                     result_string += '\n' + full_text[above_match]
                     above_match += 1
 
-
-                #print(result_string)
-
         if result_string:
             return result_string
         else:
             return 'No matches'
-        #full_text.find(substring)
-        #return full_text.find(substring)
