@@ -44,7 +44,7 @@ class Gitlab_job_object:
             print(len(full_text))
         for match_index, string in enumerate(full_text):
             if substring in string:
-                print(match_index)
+                #print(match_index)
                 above_match: int = match_index - int(up)
                 below_match: int = match_index + int(down)
                 result_string += f'\n\n---------------------\n MATCH: string index {match_index}\n---------------------'
@@ -53,7 +53,7 @@ class Gitlab_job_object:
                         return result_string
                     if above_match == match_index:
                         #result_string += '\n' + f'\033[2;31;43m {full_text[match_index]} \033[0;0m'
-                        result_string += '\n' + '________________________________________________\n' + \
+                        result_string += '\n________________________________________________\n' + \
                                          f'{full_text[match_index]}\n' \
                                          + '________________________________________________\n'
                         above_match += 1

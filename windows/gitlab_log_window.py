@@ -26,15 +26,13 @@ def gitlab_log_window(name, sender, user_data):
         job_full_log = job_object.wide_filter(substring, lines_up, lines_down)
 
     dpg.delete_item(item=f'{job_id}_load_indicator')
-    dpg.add_checkbox(label="Auto update", parent=job_id)
     dpg.add_text(job_full_log, label="Log", wrap=800, parent=job_id)
 
 
 def create_log_window(job_id):
     window_label: str = f'Full log ID: {job_id}'
     with dpg.window(id=job_id, label=window_label, show=True, autosize=True, horizontal_scrollbar=True):
-        pass
-        #dpg.add_checkbox(label="Auto update", parent=job_id)
-        #dpg.add_text('', label="Log", wrap=800)
-
-
+        dpg.add_checkbox(label="Auto update", parent=job_id)
+        dpg.add_same_line(parent=job_id)
+        dpg.add_input_int(parent=job_id, id=f'{job_id}_button', label="Timeout", width=100)
+        dpg.add_separator(parent=job_id)

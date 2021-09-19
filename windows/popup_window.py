@@ -1,10 +1,10 @@
 import dearpygui.dearpygui as dpg
-from services.windows_ops import centerlize_main_pos
+from services.windows_ops import centralize_main_pos
 from configuration import Config
 
 
 def create_popup_window(text: str):
-    window_pos = centerlize_main_pos([getattr(Config, 'popup_window_width'),
+    window_pos = centralize_main_pos([getattr(Config, 'popup_window_width'),
                                       getattr(Config, 'popup_window_height')])
     print(f'window_pos {window_pos}')
     with dpg.window(id='modal_login_window', label='Error!', modal=True, pos=window_pos):
