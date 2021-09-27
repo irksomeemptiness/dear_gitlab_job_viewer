@@ -48,6 +48,6 @@ def gitlab_connection(gitlab_link, gitlab_token, project_id):
             return {'success': False, 'status': {'code': 401, 'message': 'Incorrect token'}}
     except requests.exceptions.ConnectionError:
         return {'success': False, 'status': {'code': 503, 'message': 'Wrong URL'}}
-    #else:
-    #    return {'success': False, 'status': {'code': 500, 'message': 'Something went wrong'}}
+    except Exception:
+        return {'success': False, 'status': {'code': 500, 'message': 'Something went wrong'}}
     return {'success': True, 'status': {'code': 200, 'message': 'ok'}}

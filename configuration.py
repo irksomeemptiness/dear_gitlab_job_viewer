@@ -15,3 +15,5 @@ class Config:
         gitlab_private_token, gitlab_url, gitlab_project_id = environ.get("TOKEN"), environ.get("URL"), environ.get("ID")
     else:
         gitlab_private_token = gitlab_url = gitlab_project_id = ''
+
+    content_folder = 'content/'
