@@ -1,6 +1,4 @@
-from os import environ
 from gitlab.v4.objects import ProjectJob
-import dearpygui.dearpygui as dpg
 
 
 class Gitlab_job_object:
@@ -39,8 +37,6 @@ class Gitlab_job_object:
         full_text = self.parse_log_file().splitlines()
         if not full_text:
             return 'No logs'
-        if environ.get("DEBUG"):
-            print(len(full_text))
         for match_index, string in enumerate(full_text):
             if substring in string:
                 total_matches += 1
@@ -60,7 +56,6 @@ class Gitlab_job_object:
                     result_string += f'\n{full_text[above_match]}'
                     above_match += 1
 
-        print(f'total_matches - {total_matches}')
         if result_string:
             final_string = '\n'.join((f'TOTAL MATCHES: {total_matches}', result_string))
             return final_string
