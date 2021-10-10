@@ -1,6 +1,6 @@
-from configuration import Config
-from dearpygui.dearpygui import get_value
 import dearpygui.dearpygui as dpg
+from configuration import Config
+from services.find_thread import find_and_terminate_thread
 from classes.gitlab_job import Gitlab_job_object
 from classes.auto_update import Auto_update_thread
 
@@ -18,9 +18,9 @@ def gitlab_log_window(name, sender, user_data):
         create_log_window(job_id, job=job_object)
         dpg.add_loading_indicator(parent=job_id, id=f'{job_id}_load_indicator', label='Loading')
 
-    substring = get_value(10)
-    lines_up = get_value(11)
-    lines_down = get_value(12)
+    substring: str = dpg.get_value("main_key_word")
+    lines_up: int = dpg.get_value("main_strings_above")
+    lines_down: int = dpg.get_value("main_strings_below")
     job_full_log = job_object.filter(substring, lines_up, lines_down)
 
     dpg.delete_item(item=f'{job_id}_load_indicator')
@@ -29,8 +29,8 @@ def gitlab_log_window(name, sender, user_data):
 
 def create_log_window(job_id, job):
     window_label: str = f'Full log ID: {job_id}'
-    height = getattr(Config, 'log_window_height')
-    width = getattr(Config, 'log_window_width')
+    height = getattr(Config, 'log_window_height', 450)
+    width = getattr(Config, 'log_window_width', 600)
     with dpg.window(id=job_id, label=window_label, show=True, horizontal_scrollbar=True, height=height, width=width):
         dpg.add_checkbox(id=f'{job_id}_checkbox', label="Auto update", parent=job_id, callback=checkbox_click_callback,
                          user_data={'job': job})
@@ -42,13 +42,17 @@ def create_log_window(job_id, job):
 
 def checkbox_click_callback(name, sender, user_data):
     timeout = dpg.get_value(f"{user_data['job'].id}_button")
-    substring = get_value(10)
-    lines_up = get_value(11)
-    lines_down = get_value(12)
+    substring: str = dpg.get_value("main_key_word")
+    lines_up: int = dpg.get_value("main_strings_above")
+    lines_down: int = dpg.get_value("main_strings_below")
 
     if sender:
         auto_update_thread = Auto_update_thread(gitlab_job=user_data['job'], timeout=timeout, substring=substring,
                                                 lines_up=lines_up, lines_down=lines_down)
+        Auto_update_thread.threads.append(auto_update_thread)
         auto_update_thread.start()
     else:
-        pass
+        find_and_terminate_thread(user_data['job'].id)
+
+
+

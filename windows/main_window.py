@@ -4,11 +4,11 @@ from windows.gitlab_log_window import gitlab_log_window
 
 def create_main_window():
     with dpg.window(id='main', label="main"):
-        dpg.add_input_text(id=10, label="key", hint='Please enter a key word', width=200)
+        dpg.add_input_text(id='main_key_word', label="key", hint='Please enter a key word', width=200)
         dpg.add_same_line()
-        dpg.add_input_int(id=11, label="Strings up", width=100)
+        dpg.add_input_int(id='main_strings_above', label="Strings above", width=100)
         dpg.add_same_line()
-        dpg.add_input_int(id=12, label="Strings down",  width=100)
+        dpg.add_input_int(id='main_strings_below', label="Strings below",  width=100)
         dpg.add_separator(parent='main')
 
         with dpg.menu_bar(parent='main'):

@@ -10,8 +10,8 @@ def gitlab_login_window():
     gitlab_url = getattr(Config, 'gitlab_url')
     gitlab_project_id = getattr(Config, 'gitlab_project_id')
 
-    login_pos_x, login_pos_y = centralize_main_pos([getattr(Config, 'login_window_width'),
-                                                    getattr(Config, 'login_window_height')])
+    login_pos_x, login_pos_y = centralize_main_pos([getattr(Config, 'login_window_width', 300),
+                                                    getattr(Config, 'login_window_height', 200)])
 
     with dpg.window(id='login', label="Login", show=True, autosize=True, no_collapse=True, no_close=True,
                     width=300, height=200, pos=[login_pos_x, login_pos_y]):
