@@ -9,7 +9,8 @@ from windows.main_window import successful_connection
 
 
 def login_connection(sender, app_data, user_data):
-    print(sender, app_data)
+    if environ.get("DEBUG"):
+        print(sender, app_data)
     gitlab_link: str = user_data['gitlab_url']()
     project_id: int = user_data['repo_id']()
     gitlab_token: str = user_data['token']()

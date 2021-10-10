@@ -1,9 +1,14 @@
-import os
+from os import environ
 import time
-from threading import Thread
 import dearpygui.dearpygui as dpg
+from threading import Thread
+from pandas.core.computation.ops import isnumeric
 from classes.gitlab_job import Gitlab_job_object
 from services.windows_ops import update_log_box
+
+
+class TimerRatioError(Exception):
+    pass
 
 
 class Auto_update_thread(Thread):
@@ -18,10 +23,10 @@ class Auto_update_thread(Thread):
         self.lines_up = lines_up
         self.lines_down = lines_down
         self.__stop = False
-        self.inner_timer_ratio: int = 100
+        self.__inner_timer_ratio: int = 100
 
     def run(self):
-        if os.getenv('DEBUG'):
+        if environ.get("DEBUG"):
             print(f'thread has been started {self.thread_id}')
         inner_piece_of_timeout = self.timeout/self.inner_timer_ratio
         inner_timer = 0
@@ -33,16 +38,27 @@ class Auto_update_thread(Thread):
             else:
                 update_log_box(self.gitlab_job, self.substring, self.lines_up, self.lines_down)
                 inner_timer = 0
-        if os.getenv('DEBUG'):
+        if environ.get("DEBUG"):
             print(f'thread has been finished {self.thread_id}')
 
     def stop_thread(self):
-        if os.getenv('DEBUG'):
+        if environ.get("DEBUG"):
             print(f'Signal has been sent to {self.thread_id} thread')
         self.__stop = True
 
+    @property
+    def inner_timer_ratio(self):
+        return self.__inner_timer_ratio
+
+    @inner_timer_ratio.setter
+    def inner_timer_ratio(self, value: int):
+        if isnumeric(value) and 10 < value < 1000:
+            self.__inner_timer_ratio = value
+        else:
+            raise TimerRatioError('Ration must be between 10 and 1000')
+
     def __del__(self):
-        if os.getenv('DEBUG'):
+        if environ.get("DEBUG"):
             print(f'Thread {self.thread_id} has been closed')
 
     def __str__(self):

@@ -20,13 +20,15 @@ class Gitlab_job_object:
         #return raw_log.decode('cp1251')
 
     def filter(self, substring: str, lines_up: int, lines_down: int) -> str:
+        total_matches: int = 0
         if lines_up == 0 and lines_down == 0:
             result_string: str = ''
             full_text = self.parse_log_file().splitlines()
             for string in full_text:
                 if substring in string:
+                    total_matches += 1
                     result_string += f'\n{string}'
-            final_string = '\n'.join((f'TOTAL MATCHES: {len(result_string)}', result_string))
+            final_string = '\n'.join((f'TOTAL MATCHES: {total_matches}', result_string))
             return final_string
         else:
             return self.__wide_filter(substring, lines_up, lines_down)
