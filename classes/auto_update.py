@@ -2,7 +2,6 @@ from os import environ
 import time
 import dearpygui.dearpygui as dpg
 from threading import Thread
-from pandas.core.computation.ops import isnumeric
 from classes.gitlab_job import Gitlab_job_object
 from services.windows_ops import update_log_box
 
@@ -52,10 +51,10 @@ class Auto_update_thread(Thread):
 
     @inner_timer_ratio.setter
     def inner_timer_ratio(self, value: int):
-        if isnumeric(value) and 10 < value < 1000:
+        if isinstance(value, (int, float)) and 10 < value < 1000:
             self.__inner_timer_ratio = value
         else:
-            raise TimerRatioError('Ration must be between 10 and 1000')
+            raise TimerRatioError('Ratio must be between 10 and 1000')
 
     def __del__(self):
         if environ.get("DEBUG"):
