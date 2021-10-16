@@ -51,7 +51,7 @@ class Auto_update_thread(Thread):
 
     @inner_timer_ratio.setter
     def inner_timer_ratio(self, value: int):
-        if isinstance(value, (int, float)) and 10 < value < 1000:
+        if isinstance(value, int) and 10 < value < 1000:
             self.__inner_timer_ratio = value
         else:
             raise TimerRatioError('Ratio must be between 10 and 1000')

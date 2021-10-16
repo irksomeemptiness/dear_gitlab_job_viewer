@@ -18,6 +18,7 @@ def login_connection(sender, app_data, user_data):
 
     if environ.get("DEBUG"):
         print(f'gitlab link {gitlab_link} token {gitlab_token} repo {project_id}')
+    dpg.configure_item(item='login_button', enabled=False)
     dpg.configure_item(item='login_loading_indicator', show=True)
     connection_json = gitlab_connection(gitlab_link, gitlab_token, project_id)
     if not connection_json['success']:
@@ -32,6 +33,7 @@ def login_connection(sender, app_data, user_data):
         create_popup_window(text=popup_message)
         dpg.configure_item(item='login_loading_indicator', show=False)
     dpg.configure_item(item='login_loading_indicator', show=False)
+    dpg.configure_item(item='login_button', enabled=True)
 
 
 def gitlab_connection(gitlab_link, gitlab_token, project_id):
