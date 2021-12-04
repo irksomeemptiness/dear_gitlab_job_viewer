@@ -22,7 +22,7 @@ class TestLogParcer(unittest.TestCase):
         log_object = Gitlab_log_parser(log_data=gitlab_log_input)
         self.assertRaises(ValueError, log_object.wide_filter, substring='ERROR', up=0, down=0)
 
-    def test_wide_filter_without_substring_up_and_down_1(self):
+    def test_wide_filter_with_substring_up_and_down_1(self):
         gitlab_log_input = Responses.input1
         log_object = Gitlab_log_parser(log_data=gitlab_log_input)
         final_string = log_object.wide_filter(substring='ERROR', up=2, down=2)
@@ -30,7 +30,7 @@ class TestLogParcer(unittest.TestCase):
         expected = Responses.response1
         self.assertEqual(final_string, expected)
 
-    def test_wide_filter_without_substring_up_and_down_2(self):
+    def test_wide_filter_with_substring_up_and_down_2(self):
         gitlab_log_input = Responses.input2
         log_object = Gitlab_log_parser(log_data=gitlab_log_input)
         final_string = log_object.wide_filter(substring='ERROR', up=2, down=2)
