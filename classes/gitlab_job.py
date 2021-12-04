@@ -1,6 +1,6 @@
-import requests
 from typing import Union
 from gitlab.v4.objects import ProjectJob
+from requests import exceptions
 from classes.log_parser import Gitlab_log_parser
 
 
@@ -11,7 +11,7 @@ class Gitlab_job_object:
     def extract_raw_log(self) -> Union[str, bytes]:
         try:
             job_log = bytes(self.__job.trace())
-        except requests.exceptions.ConnectionError:
+        except exceptions.ConnectionError:
             return str('Error. Perhaps, it is a connection problem.')
         return job_log
 
