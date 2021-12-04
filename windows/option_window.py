@@ -1,6 +1,5 @@
 from dearpygui.dearpygui import window, add_input_text, add_checkbox, add_button, get_value
 
-
 OPTIONS = {}
 
 
@@ -11,9 +10,9 @@ def create_option_window():
         add_input_text(default_value="zzzzz")
         add_input_text(default_value="zzzzz")
         add_checkbox(label="Radio Button", default_value=False,
-                          callback=debug_callback)
+                     callback=debug_callback)
         add_checkbox(label="Radio Button", default_value=False,
-                          callback=debug_callback)
+                     callback=debug_callback)
         add_button(callback=save_options)
 
 
@@ -35,6 +34,7 @@ def save_options(simple=None):
         OPTIONS['option3'] = get_value("window_option_3")
         OPTIONS['option4'] = get_value("window_option_4")
         OPTIONS['option5'] = get_value("window_option_5")
+
     print(OPTIONS)
     options_window_close_and_save()
     window(id=3, show=True)

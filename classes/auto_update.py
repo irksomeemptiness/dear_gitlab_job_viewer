@@ -1,4 +1,4 @@
-from os import environ
+import logging
 import time
 import dearpygui.dearpygui as dpg
 from threading import Thread
@@ -25,8 +25,7 @@ class Auto_update_thread(Thread):
         self.__inner_timer_ratio: int = 100
 
     def run(self):
-        if environ.get("DEBUG"):
-            print(f'thread has been started {self.thread_id}')
+        logging.debug(f'thread has been started {self.thread_id}')
         inner_piece_of_timeout = self.timeout/self.inner_timer_ratio
         inner_timer = 0
         while not self.__stop and dpg.get_value(f'{self.gitlab_job.id}_checkbox') and \
@@ -37,12 +36,10 @@ class Auto_update_thread(Thread):
             else:
                 update_log_box(self.gitlab_job, self.substring, self.lines_up, self.lines_down)
                 inner_timer = 0
-        if environ.get("DEBUG"):
-            print(f'thread has been finished {self.thread_id}')
+        logging.debug(f'thread has been finished {self.thread_id}')
 
     def stop_thread(self):
-        if environ.get("DEBUG"):
-            print(f'Signal has been sent to {self.thread_id} thread')
+        logging.debug(f'Signal has been sent to {self.thread_id} thread')
         self.__stop = True
 
     @property
@@ -57,8 +54,7 @@ class Auto_update_thread(Thread):
             raise TimerRatioError('Ratio must be between 10 and 1000')
 
     def __del__(self):
-        if environ.get("DEBUG"):
-            print(f'Thread {self.thread_id} has been closed')
+        logging.debug(f'Thread {self.thread_id} has been closed')
 
     def __str__(self):
         return f'Thread id: {self.thread_id}, repeat time: {self.timeout}'

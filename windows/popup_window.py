@@ -1,4 +1,4 @@
-from os import environ
+import logging
 
 import dearpygui.dearpygui as dpg
 from services.windows_ops import centralize_main_pos
@@ -8,8 +8,7 @@ from configuration import Config
 def create_popup_window(text: str):
     window_pos = centralize_main_pos([getattr(Config, 'popup_window_width', 200),
                                       getattr(Config, 'popup_window_height', 150)])
-    if environ.get("DEBUG"):
-        print(f'window_pos {window_pos}')
+    logging.debug(f'window_pos {window_pos}')
     with dpg.window(id='modal_login_window', label='Error!', modal=True, pos=window_pos):
         dpg.add_text(text)
         #print(dpg.get_item_pos('login'))

@@ -1,4 +1,4 @@
-from os import environ
+import logging
 
 import gitlab
 import requests
@@ -9,15 +9,13 @@ from windows.main_window import successful_connection
 
 
 def login_connection(sender, app_data, user_data):
-    if environ.get("DEBUG"):
-        print(sender, app_data)
+    logging.debug(f'{sender}, {app_data}')
     gitlab_link: str = user_data['gitlab_url']()
     project_id: int = user_data['repo_id']()
     gitlab_token: str = user_data['token']()
     popup_message: str = ''
 
-    if environ.get("DEBUG"):
-        print(f'gitlab link {gitlab_link} token {gitlab_token} repo {project_id}')
+    logging.debug(f'gitlab link {gitlab_link} token {gitlab_token} repo {project_id}')
     dpg.configure_item(item='login_button', enabled=False)
     dpg.configure_item(item='login_loading_indicator', show=True)
     connection_json = gitlab_connection(gitlab_link, gitlab_token, project_id)
@@ -34,15 +32,16 @@ def login_connection(sender, app_data, user_data):
         dpg.configure_item(item='login_loading_indicator', show=False)
     dpg.configure_item(item='login_loading_indicator', show=False)
     dpg.configure_item(item='login_button', enabled=True)
+    successful_connection(connection_json['jobs'])
 
 
 def gitlab_connection(gitlab_link, gitlab_token, project_id):
+    jobs = []
     try:
         gl_connect = gitlab.Gitlab(gitlab_link, private_token=gitlab_token)
         gl_connect.auth()
         project = gl_connect.projects.get(project_id)
         jobs = project.jobs.list(all=True)
-        successful_connection(jobs)
     except gitlab.exceptions.GitlabError as gitlab_exception:
         # The exception wrapper is really odd. I have to work with it in another way.
         if '404' in gitlab_exception.__str__():
@@ -53,4 +52,4 @@ def gitlab_connection(gitlab_link, gitlab_token, project_id):
         return {'success': False, 'status': {'code': 503, 'message': 'Wrong URL'}}
     except Exception:
         return {'success': False, 'status': {'code': 500, 'message': 'Something went wrong'}}
-    return {'success': True, 'status': {'code': 200, 'message': 'ok'}}
+    return {'success': True, 'status': {'code': 200, 'message': 'ok'}, 'jobs': jobs}
