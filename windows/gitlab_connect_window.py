@@ -13,17 +13,17 @@ def gitlab_login_window():
     login_pos_x, login_pos_y = centralize_main_pos([getattr(Config, 'login_window_width', 300),
                                                     getattr(Config, 'login_window_height', 200)])
 
-    with dpg.window(id='login', label="Login", show=True, autosize=True, no_collapse=True, no_close=True,
+    with dpg.window(tag='login', label="Login", show=True, autosize=True, no_collapse=True, no_close=True,
                     width=300, height=200, pos=[login_pos_x, login_pos_y]):
-        dpg.add_text(id="login_text", default_value="Please enter a gitlab, token")
+        dpg.add_text(tag="login_text", default_value="Please enter a gitlab, token")
         gitlab_link = dpg.add_input_text(label="Gitlab link", default_value=gitlab_url)
         rep_link = dpg.add_input_text(label="Project ID", default_value=gitlab_project_id)
         gitlab_token = dpg.add_input_text(label="Gitlab Token", password=True, default_value=gitlab_private_token)
 
-        dpg.add_button(id="login_button", label="Enter", callback=login_connection,
-                       user_data={'gitlab_url': lambda a=gitlab_link: get_value(a),
-                                  'repo_id': lambda a=rep_link: get_value(a),
-                                  'token': lambda a=gitlab_token: get_value(a)}
-                       )
-        dpg.add_same_line()
-        dpg.add_loading_indicator(id='login_loading_indicator', show=False)
+        with dpg.group(horizontal=True):
+            dpg.add_button(tag="login_button", label="Enter", callback=login_connection,
+                           user_data={'gitlab_url': lambda a=gitlab_link: get_value(a),
+                                      'repo_id': lambda a=rep_link: get_value(a),
+                                      'token': lambda a=gitlab_token: get_value(a)}
+                           )
+            dpg.add_loading_indicator(tag='login_loading_indicator', show=False)

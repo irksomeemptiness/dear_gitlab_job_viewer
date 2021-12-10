@@ -13,10 +13,10 @@ def gitlab_log_window(name, sender, user_data):
     if dpg.does_item_exist(job_id):
         dpg.delete_item(item=job_id)
         create_log_window(job_id, job=job_object)
-        dpg.add_loading_indicator(parent=job_id, id=f'{job_id}_load_indicator', label='Loading')
+        dpg.add_loading_indicator(parent=job_id, tag=f'{job_id}_load_indicator', label='Loading')
     else:
         create_log_window(job_id, job=job_object)
-        dpg.add_loading_indicator(parent=job_id, id=f'{job_id}_load_indicator', label='Loading')
+        dpg.add_loading_indicator(parent=job_id, tag=f'{job_id}_load_indicator', label='Loading')
 
     substring: str = dpg.get_value("main_key_word")
     lines_up: int = dpg.get_value("main_strings_above")
@@ -24,15 +24,15 @@ def gitlab_log_window(name, sender, user_data):
     job_full_log = job_object.filter(substring, lines_up, lines_down)
 
     dpg.delete_item(item=f'{job_id}_load_indicator')
-    dpg.add_text(job_full_log, id=f'{job_id}_text', label="Log", wrap=800, parent=job_id)
+    dpg.add_text(job_full_log, tag=f'{job_id}_text', label="Log", wrap=800, parent=job_id)
 
 
 def create_log_window(job_id, job):
     window_label: str = f'Full log ID: {job_id}'
     height = getattr(Config, 'log_window_height', 450)
     width = getattr(Config, 'log_window_width', 600)
-    with dpg.window(id=job_id, label=window_label, show=True, horizontal_scrollbar=True, height=height, width=width):
-        dpg.add_checkbox(id=f'{job_id}_checkbox', label="Auto update", parent=job_id, callback=checkbox_click_callback,
+    with dpg.window(tag=job_id, label=window_label, show=True, horizontal_scrollbar=True, height=height, width=width):
+        dpg.add_checkbox(tag=f'{job_id}_checkbox', label="Auto update", parent=job_id, callback=checkbox_click_callback,
                          user_data={'job': job})
         dpg.add_same_line(parent=job_id)
         dpg.add_input_int(parent=job_id, id=f'{job_id}_button', label="Timeout", width=100, default_value=5,

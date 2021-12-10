@@ -1,40 +1,27 @@
-from dearpygui.dearpygui import window, add_input_text, add_checkbox, add_button, get_value
+import logging
+
+import dearpygui.dearpygui as dpg
+from configuration import Config
+from windows_ops import centralize_main_pos
 
 OPTIONS = {}
 
 
 def create_option_window():
-    with window(id=2, label="Options", on_close=debug_callback, show=False, autosize=True):
-        add_input_text(default_value="zzzzz")
-        add_input_text(default_value="zzzzz")
-        add_input_text(default_value="zzzzz")
-        add_input_text(default_value="zzzzz")
-        add_checkbox(label="Radio Button", default_value=False,
-                     callback=debug_callback)
-        add_checkbox(label="Radio Button", default_value=False,
-                     callback=debug_callback)
-        add_button(callback=save_options)
+    with dpg.window(tag="options_window", label="Options", on_close=options_window_close_callback, show=False,
+                    pos=centralize_main_pos([Config.options_window_height, Config.options_window_width])):
+        dpg.add_input_int(tag="option_gitlab_jobs_limit", width=100, default_value=Config.gitlab_jobs_per_page,
+                          label="Gitlab jobs per a page")
+        dpg.add_combo(tag="option_gitlab_scope", items=Config.gitlab_scopes, label='Choose scope')
+        dpg.add_button(callback=save_options, label="Save changes")
 
 
-def debug_callback(sender, data):
-    object_data = get_value(sender)
-    print("Debug callback {sender} and data {data} and another {data_a}".format(sender=sender, data=object_data,
-                                                                                data_a=data))
+def options_window_close_callback(sender, data):
+    dpg.configure_item(item="options_window", show=False)
 
 
-def checkbox_clicked(object_value):
-    output = get_value(object_value)
-    print("Checkbox clicked. Status {status}".format(status=output))
-
-
-def save_options(simple=None):
-    def options_window_close_and_save():
-        OPTIONS['option1'] = get_value("window_option_1")
-        OPTIONS['option2'] = get_value("window_option_2")
-        OPTIONS['option3'] = get_value("window_option_3")
-        OPTIONS['option4'] = get_value("window_option_4")
-        OPTIONS['option5'] = get_value("window_option_5")
-
-    print(OPTIONS)
-    options_window_close_and_save()
-    window(id=3, show=True)
+def save_options():
+    Config.gitlab_jobs_per_page = dpg.get_value("option_gitlab_jobs_limit")
+    Config.gitlab_selected_scope = dpg.get_value("option_gitlab_scope")
+    logging.debug(f'{dpg.get_value("option_gitlab_jobs_limit")=}, {dpg.get_value("option_gitlab_scope")=}')
+    dpg.configure_item(item="options_window", show=False)

@@ -20,7 +20,6 @@ def update_log_box(gitlab_job, substring, lines_up, lines_down):
 def define_main_window_position():
     root = tk.Tk()
     windows_resolution_width, windows_resolution_height = root.winfo_screenwidth(), root.winfo_screenheight()
-    dpg.setup_viewport()
     viewport_x, viewport_y = dpg.get_viewport_width(), dpg.get_viewport_height()
     dpg.set_viewport_title(title='Gitlab Jobs Viewer')
     dpg.set_viewport_pos(

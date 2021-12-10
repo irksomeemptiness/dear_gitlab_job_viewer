@@ -4,6 +4,7 @@ import gitlab
 import requests
 import dearpygui.dearpygui as dpg
 
+from configuration import Config
 from windows.popup_window import create_popup_window
 from windows.main_window import successful_connection
 
@@ -38,10 +39,18 @@ def login_connection(sender, app_data, user_data):
 def gitlab_connection(gitlab_link, gitlab_token, project_id):
     jobs = []
     try:
-        gl_connect = gitlab.Gitlab(gitlab_link, private_token=gitlab_token)
+        gl_connect = gitlab.Gitlab(gitlab_link, private_token=gitlab_token, per_page=Config.gitlab_jobs_per_page)
         gl_connect.auth()
-        project = gl_connect.projects.get(project_id)
-        jobs = project.jobs.list(all=True)
+        project = gl_connect.projects.get(project_id, lazy=True)
+        #number_lists = project.jobs.list(all=True, lazy=True, scope=Config)
+        #jobs = project.jobs.list(page=2)
+        #print(len(number_lists))
+
+        if Config.gitlab_selected_scope:
+            jobs = project.jobs.list(all=True, lazy=True, scope=Config.gitlab_selected_scope)
+        else:
+            jobs = project.jobs.list(all=True, lazy=True)
+
     except gitlab.exceptions.GitlabError as gitlab_exception:
         # The exception wrapper is really odd. I have to work with it in another way.
         if '404' in gitlab_exception.__str__():
