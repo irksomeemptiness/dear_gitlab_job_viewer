@@ -11,6 +11,7 @@ class OptionsWindow:
     @classmethod
     def create_window(cls):
         with dpg.window(tag="options_window", label="Options", on_close=cls.options_window_close_callback, show=False,
+                        height=Config.options_window_height, width=Config.options_window_width,
                         pos=centralize_main_pos([Config.options_window_height, Config.options_window_width])):
             #dpg.add_input_int(tag="option_gitlab_jobs_limit", width=100, default_value=MainWindowStorageClass.gitlab_jobs_per_page,
             #                  label="Gitlab jobs per a page")

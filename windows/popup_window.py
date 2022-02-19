@@ -18,8 +18,6 @@ def create_popup_window(text: str):
         dpg.add_text(text)
         dpg.add_separator()
         with dpg.group(horizontal=True):
-            #dpg.add_button(parent='modal_login_window', label="Close", callback=lambda: dpg.delete_item('modal_login_window'),
-            #               tag='modal_button')
             dpg.add_button(parent='modal_login_window', label="Close",
                            callback=delete_popup_modal_window,
                            tag='modal_button')

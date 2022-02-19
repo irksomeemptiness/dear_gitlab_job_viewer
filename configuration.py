@@ -17,8 +17,8 @@ class Config:
     log_window_height = 450
 
     # Options window
-    options_window_width = 750
-    options_window_height = 450
+    options_window_width = 300
+    options_window_height = 150
 
     if environ.get("DEBUG"):
         gitlab_private_token, gitlab_url, gitlab_project_id = environ.get("TOKEN"), environ.get("URL"), environ.get("ID")

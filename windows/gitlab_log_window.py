@@ -35,7 +35,7 @@ def create_log_window(job_id, job):
         dpg.add_checkbox(tag=f'{job_id}_checkbox', label="Auto update", parent=job_id, callback=checkbox_click_callback,
                          user_data={'job': job})
         dpg.add_same_line(parent=job_id)
-        dpg.add_input_int(parent=job_id, id=f'{job_id}_button', label="Timeout", width=100, default_value=5,
+        dpg.add_input_int(parent=job_id, tag=f'{job_id}_button', label="Timeout", width=100, default_value=5,
                           min_value=5, max_value=60)
         dpg.add_separator(parent=job_id)
 

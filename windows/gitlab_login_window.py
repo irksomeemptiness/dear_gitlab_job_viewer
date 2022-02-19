@@ -7,7 +7,7 @@ from configuration import Config
 
 class LoginWindow:
     @classmethod
-    def create1_window(cls):
+    def create_window(cls):
         gitlab_private_token = getattr(Config, 'gitlab_private_token')
         gitlab_url = getattr(Config, 'gitlab_url')
         gitlab_project_id = getattr(Config, 'gitlab_project_id')
