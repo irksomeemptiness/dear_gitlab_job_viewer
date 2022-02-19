@@ -53,6 +53,3 @@ def checkbox_click_callback(name, sender, user_data):
         auto_update_thread.start()
     else:
         find_and_terminate_thread(user_data['job'].id)
-
-
-

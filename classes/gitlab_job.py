@@ -23,11 +23,10 @@ class Gitlab_job_object:
         raw_log = self.extract_raw_log()
         if isinstance(raw_log, bytes):
             if not raw_log:
-                return 'There are nothing.'
+                return 'There is nothing.'
             return raw_log.decode('utf-8')
         elif isinstance(raw_log, str):
             return raw_log
-        #return raw_log.decode('cp1251')
 
     def filter(self, substring: str, lines_up: int, lines_down: int) -> str:
         gitlab_log_parser = Gitlab_log_parser(self.parse_log_file())

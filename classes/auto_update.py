@@ -24,7 +24,7 @@ class Auto_update_thread(Thread):
         self.__stop = False
         self.__inner_timer_ratio: int = 100
 
-    def run(self):
+    def run(self) -> None:
         logging.debug(f'thread has been started {self.thread_id}')
         inner_piece_of_timeout = self.timeout/self.inner_timer_ratio
         inner_timer = 0
@@ -36,18 +36,18 @@ class Auto_update_thread(Thread):
             else:
                 update_log_box(self.gitlab_job, self.substring, self.lines_up, self.lines_down)
                 inner_timer = 0
-        logging.debug(f'thread has been finished {self.thread_id}')
+        logging.debug(f'Thread has been finished {self.thread_id}')
 
-    def stop_thread(self):
-        logging.debug(f'Signal has been sent to {self.thread_id} thread')
+    def stop_thread(self) -> None:
+        logging.debug(f'A signal has been sent to {self.thread_id} thread')
         self.__stop = True
 
     @property
-    def inner_timer_ratio(self):
+    def inner_timer_ratio(self) -> int:
         return self.__inner_timer_ratio
 
     @inner_timer_ratio.setter
-    def inner_timer_ratio(self, value: int):
+    def inner_timer_ratio(self, value: int) -> None:
         if isinstance(value, int) and 10 < value < 1000:
             self.__inner_timer_ratio = value
         else:

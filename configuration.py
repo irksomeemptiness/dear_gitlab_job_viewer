@@ -17,7 +17,7 @@ class Config:
     log_window_height = 450
 
     # Options window
-    options_window_width = 550
+    options_window_width = 750
     options_window_height = 450
 
     if environ.get("DEBUG"):
@@ -25,9 +25,7 @@ class Config:
         logging.basicConfig(level=logging.DEBUG)
     else:
         gitlab_private_token = gitlab_url = gitlab_project_id = ''
-        #logging.basicConfig(level=logging.WARN)
+        logging.basicConfig(level=logging.WARN)
 
     content_folder = 'content/'
-    gitlab_jobs_per_page = 15
-    gitlab_scopes = ('created', 'pending', 'running', 'failed', 'success', 'canceled', 'skipped', 'manual')
-    gitlab_selected_scope = ''
+    gitlab_jobs_per_page = 25
