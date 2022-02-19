@@ -19,7 +19,7 @@ class GitlabProjectConnector:
         return self._gitlab_project_connection
 
     def gitlab_get_jobs(self, page: int = None, get_all: bool = True) -> list:
-        from main_window_storage_class import MainWindowStorageClass
+        from classes.main_window_storage_class import MainWindowStorageClass
         if self._gitlab_project_connection == '':
             raise ConnectionError('There are no saved connection. Call connect_to_project() firstly.')
         if MainWindowStorageClass.gitlab_selected_scope:

@@ -2,9 +2,9 @@ import logging
 
 import dearpygui.dearpygui as dpg
 from configuration import Config
-from main_window_storage_class import MainWindowStorageClass
+from classes.main_window_storage_class import MainWindowStorageClass
 from windows.main_window import MainWindow
-from windows_ops import centralize_main_pos
+from services.windows_ops import centralize_main_pos
 
 
 class OptionsWindow:

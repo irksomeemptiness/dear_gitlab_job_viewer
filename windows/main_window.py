@@ -3,7 +3,7 @@ import dearpygui.dearpygui as dpg
 import requests
 
 from configuration import Config
-from main_window_storage_class import MainWindowStorageClass
+from classes.main_window_storage_class import MainWindowStorageClass
 from services.connect_to_gitlab import gitlab_connection_wrapper
 from windows.popup_window import create_popup_window
 from windows.gitlab_log_window import gitlab_log_window

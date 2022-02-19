@@ -5,7 +5,7 @@ from classes.gitlab_connector import GitlabProjectConnector
 
 
 def gitlab_connection_wrapper(gitlab_link, gitlab_token, project_id):
-    from main_window_storage_class import MainWindowStorageClass
+    from classes.main_window_storage_class import MainWindowStorageClass
     try:
         gitlab_connector = GitlabProjectConnector(gitlab_link=gitlab_link, gitlab_token=gitlab_token, project_id=project_id)
         gitlab_connector.connect_to_project()

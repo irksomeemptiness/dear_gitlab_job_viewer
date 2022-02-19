@@ -1,4 +1,4 @@
-from gitlab_connector import GitlabProjectConnector
+from classes.gitlab_connector import GitlabProjectConnector
 
 
 class MainWindowStorageClass:
